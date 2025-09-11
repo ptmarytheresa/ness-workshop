@@ -12,7 +12,7 @@ public class OrderService {
     private final UserService userService;
 
     @Autowired
-    public OrderService(UserService userService) {
+    public OrderService(@Lazy UserService userService) {
         this.userService = userService;
     }
 

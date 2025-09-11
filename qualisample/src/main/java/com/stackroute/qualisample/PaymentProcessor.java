@@ -12,23 +12,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-interface PaymentService {
-    void processPayment();
-}
-@Component
-
-class CreditCardPayment implements PaymentService {
-    public void processPayment() {
-        System.out.println("Processing Credit Card Payment");
-    }
-}
-@Component
-
-class PayPalPayment implements PaymentService {
-    public void processPayment() {
-        System.out.println("Processing PayPal Payment");
-    }
-}
 @Component
 class PaymentProcessor {
     private final PaymentService paymentService;
