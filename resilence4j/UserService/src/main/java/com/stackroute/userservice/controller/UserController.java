@@ -46,4 +46,25 @@ public class UserController {
 		boolean result=userservice.deleteUser(id);
 		return new ResponseEntity(result,HttpStatus.OK);
 	}
+	
+	
+	@DeleteMapping("/deletebyemail/{id}")
+	
+	public ResponseEntity<?> deletebyemail(@PathVariable ("id") String id)   
+	{
+		boolean result;
+		try {
+			result = userservice.deletebyemailId(id);
+			return new ResponseEntity(result,HttpStatus.OK);
+
+		} catch (UseridNotFoundException e) {
+			  return new ResponseEntity<>("usernotfound",HttpStatus.NOT_FOUND);
+
+			 
+		}
+		catch(Exception e)
+		{
+		return new ResponseEntity(e.getMessage(),HttpStatus.OK);
+		}
+	}
 }

@@ -14,5 +14,5 @@ public interface UserService {
 	UserProfile updateUser(UserProfile user) throws UseridNotFoundException;
 	UserProfile viewUserByEmail(String email);
 	List<UserProfile> viewByAddr(String addr);
-	
+	boolean deletebyemailId(String userid) throws UseridNotFoundException;
 }

@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.stackroute.userservice.entity.UserProfile;
 import com.stackroute.userservice.exceptions.UserAlreadyExistException;
@@ -17,7 +19,7 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	UserRepository repo;
 
-	@Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
 	public UserProfile registerUser(UserProfile user) throws UserAlreadyExistException {
 		
 		Optional<UserProfile> optuser=repo.findById(user.getUserid());
@@ -37,6 +39,32 @@ public class UserServiceImpl implements UserService{
 		throw new UseridNotFoundException("User Does nto exist for update");
 	
 		repo.deleteById(userid);
+		
+	
+		
+		
+ 		return true;
+	}
+
+
+	@Transactional
+	public boolean deletebyemailId(String email) throws UseridNotFoundException {
+	Optional<UserProfile> optuser=repo.findByEmailId(email);
+	
+	if (optuser.isEmpty())
+		throw new UseridNotFoundException("User Does nto exist for update");
+	
+		repo.deleteByEmailId(email);
+		
+		
+	int count=repo.findAll().size();
+		
+		if(count==0)
+		{
+			 throw new RuntimeException("Single User only exist, transaction rolledback");
+		}
+			
+			
  		return true;
 	}
 
