@@ -1,0 +1,31 @@
+server:
+  port: 9555
+
+spring:
+  application:
+    name: samplefeign
+    
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+  service-url:
+    defaultZone: http://localhost:8761/eureka
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      myinstance:
+        register-health-indicator: true
+        failure-rate-threshold: 1
+        automatic-transition-from-open-to-half-open-enabled: true
+        permitted-number-of-calls-in-half-open-state: 1
+        sliding-window-type: count-based
+        minimum-number-of-calls: 1
+        sliding-window-size: 5
+    
+management:
+  health:
+    circuitbreakers:
+      enabled: true

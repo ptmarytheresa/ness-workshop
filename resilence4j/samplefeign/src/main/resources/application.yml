@@ -1,0 +1,38 @@
+server:
+  port: 9559
+
+spring:
+  application:
+    name: samplefeign
+    
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+  service-url:
+    defaultZone: http://localhost:8761/eureka
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      myinstance:
+        register-health-indicator: true
+        failure-rate-threshold: 1
+        automatic-transition-from-open-to-half-open-enabled: true
+        permitted-number-of-calls-in-half-open-state: 1
+        sliding-window-type: count-based
+        minimum-number-of-calls: 1
+        sliding-window-size: 5
+  ratelimiter:
+    instances:
+      myratelimiter:
+        limit-for-period: 4       # allow only 2 requests
+        limit-refresh-period: 10s # per 10 seconds
+        timeout-duration: 0       # immediately fail when limit exceeded
+
+    
+management:
+  health:
+    circuitbreakers:
+      enabled: true
